@@ -1,25 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+// obat
+import Daftar from "./components/obat/Daftar";
+import Create from "./components/obat/Create";
+import db from "./firebase/Firebase";
 
 function App() {
+  const [obat, setObat] = useState([]);
+  useEffect(() => {
+    obats();
+  }, []);
+  const kode = "KD0";
+  const obats = () => {
+    db.collection("obats")
+      .get()
+      .then((response) => {
+        let list = [];
+        response.forEach((doc) => {
+          let data = doc.data();
+          list.push({
+            nama: data.nama,
+            stok: data.stok,
+            hargaJual: data.hargaJual,
+            hargaBeli: data.hargaBeli,
+          });
+        });
+        setObat(list);
+      })
+      .catch((err) => console.log(err));
+  };
+  console.log(obat);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Route path="/obat">
+          <Daftar obat={obat} kode={kode} />
+        </Route>
+        <Route path="/createObat">
+          <Create />
+        </Route>
+      </div>
+    </Router>
   );
 }
 
