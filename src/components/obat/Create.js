@@ -37,9 +37,10 @@ const initialState = {
   hargaBeli: 0,
   hargaJual: 0,
   stok: 0,
+  date: new Date(),
 };
 
-function Create({ setObat, obat, navigate = false }) {
+function Create({ setObat, obat }) {
   let history = useHistory();
   const classes = useStyles();
   const [brg, setBrg] = useState(initialState);
@@ -52,6 +53,7 @@ function Create({ setObat, obat, navigate = false }) {
         hargaBeli: brg.hargaBeli,
         hargaJual: brg.hargaJual,
         stok: brg.stok,
+        date: brg.date,
       })
       .then((response) => {
         console.log(response);

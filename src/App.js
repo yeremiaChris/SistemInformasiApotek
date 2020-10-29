@@ -13,13 +13,16 @@ function App() {
   }, []);
   const kode = "KD0";
   const obats = () => {
-    db.collection("obats").onSnapshot(function (querySnapshot) {
-      let list = [];
-      querySnapshot.forEach(function (doc) {
-        list.push(doc.data());
+    db.collection("obats")
+      .orderBy("date")
+      .limit(5)
+      .onSnapshot(function (querySnapshot) {
+        let list = [];
+        querySnapshot.forEach(function (doc) {
+          list.push(doc.data());
+        });
+        setObat(list);
       });
-      setObat(list);
-    });
   };
   return (
     <Router>
