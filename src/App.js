@@ -9,37 +9,27 @@ import db from "./firebase/Firebase";
 function App() {
   const [obat, setObat] = useState([]);
   useEffect(() => {
-    obats();
+    return obats();
   }, []);
   const kode = "KD0";
   const obats = () => {
-    db.collection("obats")
-      .get()
-      .then((response) => {
-        let list = [];
-        response.forEach((doc) => {
-          let data = doc.data();
-          list.push({
-            nama: data.nama,
-            stok: data.stok,
-            hargaJual: data.hargaJual,
-            hargaBeli: data.hargaBeli,
-          });
-        });
-        setObat(list);
-      })
-      .catch((err) => console.log(err));
+    db.collection("obats").onSnapshot(function (querySnapshot) {
+      let list = [];
+      querySnapshot.forEach(function (doc) {
+        list.push(doc.data());
+      });
+      setObat(list);
+    });
   };
-  console.log(obat);
   return (
     <Router>
       <div className="App">
         <Navbar />
-        <Route path="/obat">
+        <Route path="/obat" exact>
           <Daftar obat={obat} kode={kode} />
         </Route>
-        <Route path="/createObat">
-          <Create />
+        <Route path="/obat/create">
+          <Create setObat={setObat} obat={obat} />
         </Route>
       </div>
     </Router>

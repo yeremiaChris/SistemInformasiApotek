@@ -166,12 +166,10 @@ export default function CustomizedTables({ obat, kode }) {
               </div>
 
               <div className={classes.kiri}>
-                <Link to="/createObat">
-                  <IconButton color="inherit">
-                    <Fab size="small" color="secondary" aria-label="add">
-                      <AddIcon />
-                    </Fab>
-                  </IconButton>
+                <Link to="/obat/create">
+                  <Fab size="small" color="secondary" aria-label="add">
+                    <AddIcon />
+                  </Fab>
                 </Link>
               </div>
             </Toolbar>
@@ -201,7 +199,7 @@ export default function CustomizedTables({ obat, kode }) {
                       {index}
                     </StyledTableCell>
                     <StyledTableCell align="right">{row.nama}</StyledTableCell>
-                    <StyledTableCell align="right">{row.nama}</StyledTableCell>
+                    <StyledTableCell align="right">{row.stok}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row.hargaBeli}
                     </StyledTableCell>

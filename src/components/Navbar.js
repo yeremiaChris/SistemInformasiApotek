@@ -78,6 +78,14 @@ export default function ButtonAppBar() {
             <ListItemText primary="Daftar Obat" />
           </ListItem>
         </Link>
+        <Link to="/obat/create" className={classes.text}>
+          <ListItem button>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tambah Obat" />
+          </ListItem>
+        </Link>
         <ListItem button>
           <ListItemIcon>
             <MailIcon />
