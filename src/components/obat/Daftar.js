@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // state
-export default function CustomizedTables({ obat, kode }) {
+export default function CustomizedTables({ obat, deleteData }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -192,8 +192,8 @@ export default function CustomizedTables({ obat, kode }) {
             <TableBody>
               {obat &&
                 obat.map((row, index) => (
-                  <StyledTableRow key={index}>
-                    <StyledTableCell align="left">{row.nama}</StyledTableCell>
+                  <StyledTableRow key={row.key}>
+                    <StyledTableCell align="left">{row.key}</StyledTableCell>
                     <StyledTableCell align="right">{row.stok}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row.hargaBeli}
@@ -204,7 +204,7 @@ export default function CustomizedTables({ obat, kode }) {
                     <StyledTableCell align="right">
                       <Fab
                         size="small"
-                        aria-label="add"
+                        aria-label="edit"
                         className={classes.button}
                       >
                         <EditIcon />
@@ -212,12 +212,17 @@ export default function CustomizedTables({ obat, kode }) {
                       <Fab
                         size="small"
                         color="primary"
-                        aria-label="add"
+                        aria-label="lihat"
                         className={classes.button}
                       >
                         <VisibilityIcon />
                       </Fab>
-                      <Fab size="small" color="secondary" aria-label="add">
+                      <Fab
+                        size="small"
+                        color="secondary"
+                        aria-label="delete"
+                        onClick={() => deleteData(row.key)}
+                      >
                         <HighlightOffIcon />
                       </Fab>
                     </StyledTableCell>
