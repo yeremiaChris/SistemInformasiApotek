@@ -114,7 +114,6 @@ export default function CustomizedTables({ obat, kode }) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  const page = obat.slice(0, 5);
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -183,7 +182,7 @@ export default function CustomizedTables({ obat, kode }) {
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="right">Nama</StyledTableCell>
+                <StyledTableCell align="left">Nama</StyledTableCell>
                 <StyledTableCell align="right">Stok</StyledTableCell>
                 <StyledTableCell align="right">Harga Beli</StyledTableCell>
                 <StyledTableCell align="right">Harga Jual</StyledTableCell>
@@ -194,7 +193,7 @@ export default function CustomizedTables({ obat, kode }) {
               {obat &&
                 obat.map((row, index) => (
                   <StyledTableRow key={index}>
-                    <StyledTableCell align="right">{row.nama}</StyledTableCell>
+                    <StyledTableCell align="left">{row.nama}</StyledTableCell>
                     <StyledTableCell align="right">{row.stok}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row.hargaBeli}
