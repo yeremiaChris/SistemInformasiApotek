@@ -193,7 +193,7 @@ export default function CustomizedTables({ obat, deleteData }) {
               {obat &&
                 obat.map((row, index) => (
                   <StyledTableRow key={row.key}>
-                    <StyledTableCell align="left">{row.key}</StyledTableCell>
+                    <StyledTableCell align="left">{row.nama}</StyledTableCell>
                     <StyledTableCell align="right">{row.stok}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row.hargaBeli}

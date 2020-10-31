@@ -29,7 +29,6 @@ function App() {
             nama,
             stok,
           });
-          console.log(list);
         });
         setObat(list);
       });
@@ -59,6 +58,10 @@ function App() {
         console.log(err);
       });
   };
+  // akhir delete data
+
+  // pembelian
+
   return (
     <Router>
       <div className="App">

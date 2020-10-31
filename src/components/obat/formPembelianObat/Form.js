@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +11,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Fab from "@material-ui/core/Fab";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import db from "../../../firebase/Firebase";
 
 // select
 /* eslint-disable no-use-before-define */
@@ -37,19 +38,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialState = {
+  keyObat: "",
   obat: "",
   jumlah: 0,
+  stokAwal: 0,
 };
 
-function Create({ setObat, obat }) {
+function Create({ obat, beli }) {
   let history = useHistory();
   const classes = useStyles();
   const [form, setForm] = useState(initialState);
-
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
+    console.log(parseInt(form.jumlah) + parseInt(form.stokAwal));
+    const newStok = parseInt(form.jumlah) + parseInt(form.stokAwal);
+    db.collection("obats")
+      .doc(form.keyObat)
+      .update({ stok: newStok })
+      .then((res) => {
+        console.log("succes");
+        history.push("/obat");
+      })
+      .catch((err) => {
+        console.log("gagal");
+      });
   };
+
   return (
     <Grid container justify="center">
       <Grid item className={classes.sort}>
@@ -70,22 +84,36 @@ function Create({ setObat, obat }) {
         <form onSubmit={onSubmit}>
           <FormControl fullWidth className={classes.margin} variant="outlined">
             <Autocomplete
-              fullWidth
+              onChange={(e, v) =>
+                setForm({
+                  ...form,
+                  keyObat: v.key,
+                  obat: v.nama,
+                  stokAwal: v.stok,
+                })
+              }
               className={classes.text}
-              id="combo-box-demo"
-              options={obat}
-              getOptionLabel={(option) => option.nama}
+              id="country-select-demo"
               style={{ width: 300 }}
-              onChange={(e) => {
-                setForm({ ...form, obat: e.target.textContent });
-                console.log(e.target.textContent);
+              options={obat}
+              classes={{
+                option: classes.option,
               }}
+              autoHighlight
+              getOptionSelected={(option) => option.key}
+              getOptionLabel={(option) => option.nama}
+              renderOption={(option) => (
+                <React.Fragment>{option.nama}</React.Fragment>
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  value={form.obat}
-                  label="Pilih obat"
+                  label="Pilih Obat"
                   variant="outlined"
+                  inputProps={{
+                    ...params.inputProps,
+                    autoComplete: "new-password", // disable autocomplete and autofill
+                  }}
                 />
               )}
             />
@@ -97,7 +125,9 @@ function Create({ setObat, obat }) {
               className={classes.text}
               required
               value={form.jumlah}
-              onChange={(e) => setForm({ ...form, jumlah: e.target.value })}
+              onChange={(e) => {
+                setForm({ ...form, jumlah: e.target.value });
+              }}
             />
 
             <Button
