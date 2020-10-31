@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     color: "blue",
     marginRight: 10,
   },
+  error: {
+    color: "red",
+  },
 }));
 
 const initialState = {
@@ -44,24 +47,57 @@ const initialState = {
   stokAwal: 0,
 };
 
+// valid
+const validField = {
+  field: "",
+  error: "",
+};
+
 function Create({ obat, beli }) {
   let history = useHistory();
   const classes = useStyles();
   const [form, setForm] = useState(initialState);
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(e);
     console.log(parseInt(form.jumlah) + parseInt(form.stokAwal));
     const newStok = parseInt(form.jumlah) + parseInt(form.stokAwal);
-    db.collection("obats")
-      .doc(form.keyObat)
-      .update({ stok: newStok })
-      .then((res) => {
-        console.log("succes");
-        history.push("/obat");
-      })
-      .catch((err) => {
-        console.log("gagal");
+    handleValid();
+    // db.collection("obats")
+    //   .doc(form.keyObat)
+    //   .update({ stok: newStok })
+    //   .then((res) => {
+    //     console.log("succes");
+    //     history.push("/obat");
+    //   })
+    //   .catch((err) => {
+    //     console.log("gagal");
+    //   });
+  };
+
+  // validation
+  const [valid, setValid] = useState(validField);
+
+  // email
+  const handleValid = () => {
+    if (form.jumlah <= 0) {
+      setValid({
+        fields: "jumlah",
+        error: "Angkanya tidak boleh nol atau lebih kecil dari nol !!!",
       });
+    } else {
+      const newStok = parseInt(form.jumlah) + parseInt(form.stokAwal);
+      db.collection("obats")
+        .doc(form.keyObat)
+        .update({ stok: newStok })
+        .then((res) => {
+          console.log("succes");
+          history.push("/obat");
+        })
+        .catch((err) => {
+          console.log("gagal");
+        });
+    }
   };
 
   return (
@@ -105,8 +141,10 @@ function Create({ obat, beli }) {
               renderOption={(option) => (
                 <React.Fragment>{option.nama}</React.Fragment>
               )}
+              required
               renderInput={(params) => (
                 <TextField
+                  required
                   {...params}
                   label="Pilih Obat"
                   variant="outlined"
@@ -122,14 +160,12 @@ function Create({ obat, beli }) {
               label="Jumlah Beli"
               type="number"
               variant="outlined"
-              className={classes.text}
-              required
               value={form.jumlah}
               onChange={(e) => {
                 setForm({ ...form, jumlah: e.target.value });
               }}
             />
-
+            <p className={classes.error}>{valid.error}</p>
             <Button
               type="submit"
               variant="contained"

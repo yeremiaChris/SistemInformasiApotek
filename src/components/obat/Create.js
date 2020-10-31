@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   sort: {
-    width: 1200,
+    width: 800,
     marginTop: 30,
   },
   text: {
