@@ -12,7 +12,8 @@ import Fab from "@material-ui/core/Fab";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import db from "../../../firebase/Firebase";
-
+import { Alert } from "@material-ui/lab";
+import NumberFormat from "react-number-format";
 // select
 /* eslint-disable no-use-before-define */
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -44,6 +45,8 @@ const initialState = {
   keyObat: "",
   obat: "",
   jumlah: 0,
+  hargaSatuan: 0,
+  total: 0,
   stokAwal: 0,
 };
 
@@ -61,7 +64,6 @@ function Create({ obat, beli }) {
     e.preventDefault();
     console.log(e);
     console.log(parseInt(form.jumlah) + parseInt(form.stokAwal));
-    const newStok = parseInt(form.jumlah) + parseInt(form.stokAwal);
     handleValid();
     // db.collection("obats")
     //   .doc(form.keyObat)
@@ -79,12 +81,15 @@ function Create({ obat, beli }) {
   const [valid, setValid] = useState(validField);
 
   // email
+  const [alert, setAlert] = useState(false);
   const handleValid = () => {
     if (form.jumlah <= 0) {
       setValid({
         fields: "jumlah",
-        error: "Angkanya tidak boleh nol atau lebih kecil dari nol !!!",
+        error:
+          "Angka pada jumlah tidak boleh nol atau lebih kecil dari nol !!!",
       });
+      setAlert(true);
     } else {
       const newStok = parseInt(form.jumlah) + parseInt(form.stokAwal);
       db.collection("obats")
@@ -113,21 +118,23 @@ function Create({ obat, beli }) {
             <ArrowBackIosIcon />
           </Fab>
         </Link>
-        <Typography className={classes.text} variant="h4" color="inherit">
+        <Typography className={classes.text} variant="h5" color="inherit">
           <CameraRoundedIcon className={classes.icon} />
           Form Pembelian Obat
         </Typography>
         <form onSubmit={onSubmit}>
           <FormControl fullWidth className={classes.margin} variant="outlined">
             <Autocomplete
-              onChange={(e, v) =>
+              onChange={(e, v) => {
                 setForm({
                   ...form,
                   keyObat: v.key,
                   obat: v.nama,
                   stokAwal: v.stok,
-                })
-              }
+                  hargaSatuan: v.hargaBeli,
+                  total: v.hargaBeli,
+                });
+              }}
               className={classes.text}
               id="country-select-demo"
               style={{ width: 300 }}
@@ -156,16 +163,72 @@ function Create({ obat, beli }) {
               )}
             />
             <TextField
+              className={classes.text}
               id="outlined-number"
               label="Jumlah Beli"
               type="number"
               variant="outlined"
               value={form.jumlah}
               onChange={(e) => {
-                setForm({ ...form, jumlah: e.target.value });
+                setForm({
+                  ...form,
+                  jumlah: e.target.value,
+                  total:
+                    e.target.value == 0
+                      ? form.hargaSatuan
+                      : form.hargaSatuan * e.target.value,
+                });
               }}
             />
-            <p className={classes.error}>{valid.error}</p>
+
+            <Grid container>
+              <Grid item xs={6}>
+                <Typography variant="h6" color="inherit">
+                  Harga Satuan
+                </Typography>
+                <Typography
+                  className={classes.text}
+                  variant="h6"
+                  color="inherit"
+                >
+                  <NumberFormat
+                    value={form.hargaSatuan}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"Rp. "}
+                  />
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h6" color="inherit">
+                  <strong>Total Harga</strong>
+                </Typography>
+                <Typography
+                  className={classes.text}
+                  variant="h6"
+                  color="inherit"
+                >
+                  <NumberFormat
+                    value={form.total}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"Rp. "}
+                  />
+                </Typography>
+              </Grid>
+            </Grid>
+
+            {alert ? (
+              <Alert
+                variant="outlined"
+                severity="error"
+                className={classes.text}
+              >
+                {valid.error}
+              </Alert>
+            ) : (
+              ""
+            )}
             <Button
               type="submit"
               variant="contained"

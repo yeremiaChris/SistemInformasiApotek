@@ -23,6 +23,9 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+// curreny
+import NumberFormat from "react-number-format";
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -196,10 +199,20 @@ export default function CustomizedTables({ obat, deleteData }) {
                     <StyledTableCell align="left">{row.nama}</StyledTableCell>
                     <StyledTableCell align="right">{row.stok}</StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.hargaBeli}
+                      <NumberFormat
+                        value={row.hargaBeli}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={"Rp. "}
+                      />
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.hargaJual}
+                      <NumberFormat
+                        value={row.hargaJual}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={"Rp. "}
+                      />
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       <Fab

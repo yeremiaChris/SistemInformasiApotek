@@ -7,6 +7,8 @@ import Create from "./components/obat/Create";
 import db from "./firebase/Firebase";
 import Paginations from "./components/obat/Pagination";
 import Form from "./components/obat/formPembelianObat/Form";
+import LaporanPembelian from "./components/obat/formPembelianObat/LaporanPembelian";
+
 function App() {
   const [obat, setObat] = useState([]);
   useEffect(() => {
@@ -79,6 +81,9 @@ function App() {
         </Route>
         <Route path="/obat/beli">
           <Form obat={obat} />
+        </Route>
+        <Route path="/obat/laporanPembelian">
+          <LaporanPembelian />
         </Route>
       </div>
     </Router>
