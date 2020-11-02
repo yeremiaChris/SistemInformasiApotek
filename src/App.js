@@ -8,13 +8,18 @@ import db from "./firebase/Firebase";
 import Paginations from "./components/obat/Pagination";
 import Form from "./components/obat/formPembelianObat/Form";
 import LaporanPembelian from "./components/obat/formPembelianObat/LaporanPembelian";
-
+import {
+  terbanyak,
+  terendah,
+  terbaru,
+  terlama,
+} from "./components/obat/sortby/Sort";
 function App() {
   const [obat, setObat] = useState([]);
   useEffect(() => {
     return obats();
   }, []);
-  const kode = "KD0";
+
   const obats = () => {
     db.collection("obats")
       .orderBy("date", "desc")
@@ -35,7 +40,87 @@ function App() {
         setObat(list);
       });
   };
-
+  // sortby
+  // terbanyak
+  const banyak = () => {
+    terbanyak.onSnapshot(function (querySnapshot) {
+      let list = [];
+      querySnapshot.forEach(function (doc) {
+        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        list.push({
+          key: doc.id,
+          doc,
+          date,
+          hargaJual,
+          hargaBeli,
+          nama,
+          stok,
+        });
+      });
+      setObat(list);
+    });
+  };
+  // akhirTerbanyak
+  // terendah
+  const rendah = () => {
+    terendah.onSnapshot(function (querySnapshot) {
+      let list = [];
+      querySnapshot.forEach(function (doc) {
+        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        list.push({
+          key: doc.id,
+          doc,
+          date,
+          hargaJual,
+          hargaBeli,
+          nama,
+          stok,
+        });
+      });
+      setObat(list);
+    });
+  };
+  // akhir terendah
+  // awal terbaru
+  const baru = () => {
+    terbaru.onSnapshot(function (querySnapshot) {
+      let list = [];
+      querySnapshot.forEach(function (doc) {
+        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        list.push({
+          key: doc.id,
+          doc,
+          date,
+          hargaJual,
+          hargaBeli,
+          nama,
+          stok,
+        });
+      });
+      setObat(list);
+    });
+  };
+  // akhir terbaru
+  // awal terendah
+  const lama = () => {
+    terlama.onSnapshot(function (querySnapshot) {
+      let list = [];
+      querySnapshot.forEach(function (doc) {
+        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        list.push({
+          key: doc.id,
+          doc,
+          date,
+          hargaJual,
+          hargaBeli,
+          nama,
+          stok,
+        });
+      });
+      setObat(list);
+    });
+  };
+  // akhir terendah
   // deleteData
   const deleteData = (id) => {
     db.collection("obats")
@@ -57,7 +142,7 @@ function App() {
   }, []);
   const laporanPembelian = () => {
     db.collection("pembelianObats")
-      .orderBy("date", "desc")
+      .orderBy("date", "asc")
       .onSnapshot(function (querySnapshot) {
         let daftarLaporan = [];
         querySnapshot.forEach(function (doc) {
@@ -101,7 +186,14 @@ function App() {
       <div className="App">
         <Navbar />
         <Route path="/obat" exact>
-          <Daftar obat={currentObat} kode={kode} deleteData={deleteData} />
+          <Daftar
+            obat={currentObat}
+            deleteData={deleteData}
+            banyak={banyak}
+            rendah={rendah}
+            baru={baru}
+            lama={lama}
+          />
           <Paginations
             obatPerPage={obatPerPage}
             page={paginate}

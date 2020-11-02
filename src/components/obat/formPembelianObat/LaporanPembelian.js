@@ -15,6 +15,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import SortIcon from "@material-ui/icons/Sort";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+// curreny
+import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   sort: {
@@ -176,13 +178,25 @@ function LaporanPembelian({ laporan }) {
                       {row.namaObat}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.hargaSatuan}
+                      <NumberFormat
+                        value={row.hargaSatuan}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={"Rp. "}
+                      />
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {row.jumlahBeli}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      <strong>{row.totalHarga}</strong>
+                      <strong>
+                        <NumberFormat
+                          value={row.totalHarga}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"Rp. "}
+                        />
+                      </strong>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}

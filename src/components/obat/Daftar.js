@@ -112,7 +112,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // state
-export default function CustomizedTables({ obat, deleteData }) {
+export default function CustomizedTables({
+  obat,
+  deleteData,
+  banyak,
+  rendah,
+  baru,
+  lama,
+}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -133,8 +140,10 @@ export default function CustomizedTables({ obat, deleteData }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Kode</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Terbaru</MenuItem>
+      <MenuItem onClick={() => banyak()}>Stok Terbanyak</MenuItem>
+      <MenuItem onClick={() => rendah()}>Stok Terendah</MenuItem>
+      <MenuItem onClick={() => baru()}>Terbaru</MenuItem>
+      <MenuItem onClick={() => lama()}>Terlama</MenuItem>
     </Menu>
   );
 
@@ -285,8 +294,7 @@ export default function CustomizedTables({ obat, deleteData }) {
           </Button>
           <Button
             onClick={() => {
-              // deleteData(key);
-              console.log(key);
+              deleteData(key);
             }}
             color="primary"
             autoFocus
