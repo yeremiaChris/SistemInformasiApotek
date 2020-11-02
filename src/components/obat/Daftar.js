@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -25,6 +25,12 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 // curreny
 import NumberFormat from "react-number-format";
+// dialog in material ui
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -132,6 +138,18 @@ export default function CustomizedTables({ obat, deleteData }) {
     </Menu>
   );
 
+  // dialog
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // mengambil key
+  const [key, setKey] = useState("");
   return (
     <>
       <Grid container justify="center">
@@ -233,7 +251,13 @@ export default function CustomizedTables({ obat, deleteData }) {
                         size="small"
                         color="secondary"
                         aria-label="delete"
-                        onClick={() => deleteData(row.key)}
+                        onClick={() => {
+                          // setOpen(true);
+                          console.log(row.key);
+                          const key = row.key;
+                          setKey(key);
+                          handleClickOpen();
+                        }}
                       >
                         <HighlightOffIcon />
                       </Fab>
@@ -244,6 +268,33 @@ export default function CustomizedTables({ obat, deleteData }) {
           </Table>
         </Grid>
       </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Apakah anda yakin ingin menghapus ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Tidak
+          </Button>
+          <Button
+            onClick={() => {
+              // deleteData(key);
+              console.log(key);
+            }}
+            color="primary"
+            autoFocus
+          >
+            ya
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

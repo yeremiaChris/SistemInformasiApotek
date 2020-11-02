@@ -71,7 +71,7 @@ export default function ButtonAppBar() {
     >
       <List>
         <ListItem>
-          <ListItemText primary="Kelola " />
+          <ListItemText primary="Kelola Obat" />
         </ListItem>
         <Link to="/obat" className={classes.text}>
           <ListItem button>
