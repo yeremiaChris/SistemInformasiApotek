@@ -81,7 +81,7 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-function LaporanPembelian() {
+function LaporanPembelian({ laporan }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -158,7 +158,9 @@ function LaporanPembelian() {
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Waktu</StyledTableCell>
+                <StyledTableCell align="left">
+                  Tanggal Pembelian
+                </StyledTableCell>
                 <StyledTableCell align="right">Nama Obat</StyledTableCell>
                 <StyledTableCell align="right">Harga Beli</StyledTableCell>
                 <StyledTableCell align="right">Jumlah Beli</StyledTableCell>
@@ -166,13 +168,24 @@ function LaporanPembelian() {
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow>
-                <StyledTableCell align="left">Coba</StyledTableCell>
-                <StyledTableCell align="right">coba</StyledTableCell>
-                <StyledTableCell align="right">coba</StyledTableCell>
-                <StyledTableCell align="right">coba</StyledTableCell>
-                <StyledTableCell align="right">coba</StyledTableCell>
-              </StyledTableRow>
+              {laporan &&
+                laporan.map((row) => (
+                  <StyledTableRow key={row.namaObat}>
+                    <StyledTableCell align="left">{row.date}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.namaObat}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.hargaSatuan}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.jumlahBeli}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <strong>{row.totalHarga}</strong>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </Grid>

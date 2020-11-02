@@ -94,12 +94,14 @@ export default function ButtonAppBar() {
             <ListItemText primary="Beli Obat" />
           </ListItem>
         </Link>
-        <ListItem button>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="keren" />
-        </ListItem>
+        <Link to="/obat/laporanPembelian" className={classes.text}>
+          <ListItem button>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary="Laporan Pembelian" />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
       <List>

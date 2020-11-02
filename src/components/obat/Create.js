@@ -40,7 +40,7 @@ const initialState = {
   date: new Date(),
 };
 
-function Create({ setObat, obat }) {
+function Create() {
   let history = useHistory();
   const classes = useStyles();
   const [brg, setBrg] = useState(initialState);

@@ -48,6 +48,8 @@ const initialState = {
   hargaSatuan: 0,
   total: 0,
   stokAwal: 0,
+  date: new Date(),
+  time: new Date(),
 };
 
 // valid
@@ -59,12 +61,11 @@ const validField = {
 function Create({ obat, beli }) {
   let history = useHistory();
   const classes = useStyles();
-  const [form, setForm] = useState(initialState);
+  const [formBeli, setFormBeli] = useState(initialState);
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
-    console.log(parseInt(form.jumlah) + parseInt(form.stokAwal));
     handleValid();
+    buatLaporan();
     // db.collection("obats")
     //   .doc(form.keyObat)
     //   .update({ stok: newStok })
@@ -83,7 +84,7 @@ function Create({ obat, beli }) {
   // email
   const [alert, setAlert] = useState(false);
   const handleValid = () => {
-    if (form.jumlah <= 0) {
+    if (formBeli.jumlah <= 0) {
       setValid({
         fields: "jumlah",
         error:
@@ -91,18 +92,35 @@ function Create({ obat, beli }) {
       });
       setAlert(true);
     } else {
-      const newStok = parseInt(form.jumlah) + parseInt(form.stokAwal);
+      const newStok = parseInt(formBeli.jumlah) + parseInt(formBeli.stokAwal);
       db.collection("obats")
-        .doc(form.keyObat)
+        .doc(formBeli.keyObat)
         .update({ stok: newStok })
         .then((res) => {
           console.log("succes");
-          history.push("/obat");
         })
         .catch((err) => {
           console.log("gagal");
         });
     }
+  };
+  const buatLaporan = () => {
+    db.collection("pembelianObats")
+      .add({
+        namaObat: formBeli.obat,
+        jumlahBeli: formBeli.jumlah,
+        hargaSatuan: formBeli.hargaSatuan,
+        totalHarga: formBeli.total,
+        date: formBeli.date.toDateString(),
+        time: formBeli.date.toTimeString(),
+      })
+      .then((res) => {
+        console.log("berhasil masuk ke database laporan pembelian");
+        history.push("/obat/laporanPembelian");
+      })
+      .catch((err) => {
+        console.log("gagal beli");
+      });
   };
 
   return (
@@ -126,8 +144,8 @@ function Create({ obat, beli }) {
           <FormControl fullWidth className={classes.margin} variant="outlined">
             <Autocomplete
               onChange={(e, v) => {
-                setForm({
-                  ...form,
+                setFormBeli({
+                  ...formBeli,
                   keyObat: v.key,
                   obat: v.nama,
                   stokAwal: v.stok,
@@ -168,15 +186,15 @@ function Create({ obat, beli }) {
               label="Jumlah Beli"
               type="number"
               variant="outlined"
-              value={form.jumlah}
+              value={formBeli.jumlah}
               onChange={(e) => {
-                setForm({
-                  ...form,
+                setFormBeli({
+                  ...formBeli,
                   jumlah: e.target.value,
                   total:
                     e.target.value == 0
-                      ? form.hargaSatuan
-                      : form.hargaSatuan * e.target.value,
+                      ? formBeli.hargaSatuan
+                      : formBeli.hargaSatuan * e.target.value,
                 });
               }}
             />
@@ -192,7 +210,7 @@ function Create({ obat, beli }) {
                   color="inherit"
                 >
                   <NumberFormat
-                    value={form.hargaSatuan}
+                    value={formBeli.hargaSatuan}
                     displayType={"text"}
                     thousandSeparator={true}
                     prefix={"Rp. "}
@@ -209,7 +227,7 @@ function Create({ obat, beli }) {
                   color="inherit"
                 >
                   <NumberFormat
-                    value={form.total}
+                    value={formBeli.total}
                     displayType={"text"}
                     thousandSeparator={true}
                     prefix={"Rp. "}

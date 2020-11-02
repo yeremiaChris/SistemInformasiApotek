@@ -62,7 +62,39 @@ function App() {
   };
   // akhir delete data
 
-  // pembelian
+  // laporanPembelian
+  const [laporan, setLaporan] = useState([]);
+  useEffect(() => {
+    return laporanPembelian();
+  }, []);
+  const laporanPembelian = () => {
+    db.collection("pembelianObats")
+      .orderBy("date", "desc")
+      .onSnapshot(function (querySnapshot) {
+        let daftarLaporan = [];
+        querySnapshot.forEach(function (doc) {
+          const {
+            date,
+            hargaSatuan,
+            jumlahBeli,
+            namaObat,
+            totalHarga,
+          } = doc.data();
+          daftarLaporan.push({
+            key: doc.id,
+            doc,
+            date,
+            hargaSatuan,
+            jumlahBeli,
+            namaObat,
+            totalHarga,
+          });
+        });
+        console.log(daftarLaporan);
+        setLaporan(daftarLaporan);
+      });
+  };
+  // akhir laporan Pembelian
 
   return (
     <Router>
@@ -83,7 +115,7 @@ function App() {
           <Form obat={obat} />
         </Route>
         <Route path="/obat/laporanPembelian">
-          <LaporanPembelian />
+          <LaporanPembelian laporan={laporan} />
         </Route>
       </div>
     </Router>
