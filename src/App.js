@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     return obats();
   }, []);
-
+  const dataList = obat;
   const obats = () => {
     db.collection("obats")
       .orderBy("date", "desc")
@@ -163,7 +163,6 @@ function App() {
             totalHarga,
           });
         });
-        console.log(daftarLaporan);
         setLaporan(daftarLaporan);
       });
   };
@@ -176,6 +175,31 @@ function App() {
     setCurrentPage(pageNumber);
   };
   // getCurrentPost
+
+  // search data
+  const excludeColumns = ["hargaBeli", "hargaJual", "stok"];
+  const [searchText, setSearchText] = useState("");
+  const handleChange = (value) => {
+    setSearchText(value);
+    filterData(value);
+  };
+  // filter records by search text
+  const filterData = (value) => {
+    const lowercasedValue = value.toLowerCase().trim();
+    if (value === "") {
+      setObat(dataList);
+    } else {
+      const filteredData = obat.filter((item) => {
+        return Object.keys(item).some((no) =>
+          excludeColumns.includes(no)
+            ? false
+            : item[no].toString().toLowerCase().includes(lowercasedValue)
+        );
+      });
+      setObat(filteredData);
+    }
+  };
+  // akhir search data
   // delete data
   const last = currentPage * obatPerPage;
   const first = last - obatPerPage;
@@ -193,6 +217,8 @@ function App() {
             rendah={rendah}
             baru={baru}
             lama={lama}
+            searchText={searchText}
+            handleSearch={handleChange}
           />
           <Paginations
             obatPerPage={obatPerPage}

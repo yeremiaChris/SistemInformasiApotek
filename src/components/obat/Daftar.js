@@ -119,6 +119,8 @@ export default function CustomizedTables({
   rendah,
   baru,
   lama,
+  searchText,
+  handleSearch,
 }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -186,6 +188,7 @@ export default function CustomizedTables({
                 </div>
                 <InputBase
                   placeholder="Search…"
+                  onChange={(e) => handleSearch(e.target.value)}
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
