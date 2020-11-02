@@ -162,7 +162,7 @@ function LaporanPembelian({ laporan }) {
                   Tanggal Pembelian
                 </StyledTableCell>
                 <StyledTableCell align="right">Nama Obat</StyledTableCell>
-                <StyledTableCell align="right">Harga Beli</StyledTableCell>
+                <StyledTableCell align="right">Harga Satuan</StyledTableCell>
                 <StyledTableCell align="right">Jumlah Beli</StyledTableCell>
                 <StyledTableCell align="right">Total Beli</StyledTableCell>
               </TableRow>

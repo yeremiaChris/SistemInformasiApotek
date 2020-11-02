@@ -16,7 +16,10 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import Drawer from "@material-ui/core/Drawer";
 import { Link } from "react-router-dom";
-
+import ListIcon from "@material-ui/icons/List";
+import AddIcon from "@material-ui/icons/Add";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import DataUsageIcon from "@material-ui/icons/DataUsage";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -68,36 +71,36 @@ export default function ButtonAppBar() {
     >
       <List>
         <ListItem>
-          <ListItemText primary="Kelola Obat" />
+          <ListItemText primary="Kelola " />
         </ListItem>
         <Link to="/obat" className={classes.text}>
           <ListItem button>
             <ListItemIcon>
-              <MailIcon />
+              <ListIcon />
             </ListItemIcon>
-            <ListItemText primary="Daftar Obat" />
+            <ListItemText primary="Daftar" />
           </ListItem>
         </Link>
         <Link to="/obat/create" className={classes.text}>
           <ListItem button>
             <ListItemIcon>
-              <MailIcon />
+              <AddIcon />
             </ListItemIcon>
-            <ListItemText primary="Tambah Obat" />
+            <ListItemText primary="Tambah" />
           </ListItem>
         </Link>
         <Link to="/obat/beli" className={classes.text}>
           <ListItem button>
             <ListItemIcon>
-              <MailIcon />
+              <ShoppingBasketIcon />
             </ListItemIcon>
-            <ListItemText primary="Beli Obat" />
+            <ListItemText primary="Beli" />
           </ListItem>
         </Link>
         <Link to="/obat/laporanPembelian" className={classes.text}>
           <ListItem button>
             <ListItemIcon>
-              <MailIcon />
+              <DataUsageIcon />
             </ListItemIcon>
             <ListItemText primary="Laporan Pembelian" />
           </ListItem>

@@ -35,18 +35,6 @@ function App() {
         setObat(list);
       });
   };
-  // pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [obatPerPage] = useState(7);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  // getCurrentPost
-  // delete data
-  const last = currentPage * obatPerPage;
-  const first = last - obatPerPage;
-  const currentObat = obat.slice(first, last);
 
   // deleteData
   const deleteData = (id) => {
@@ -95,7 +83,19 @@ function App() {
       });
   };
   // akhir laporan Pembelian
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [obatPerPage] = useState(7);
 
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  // getCurrentPost
+  // delete data
+  const last = currentPage * obatPerPage;
+  const first = last - obatPerPage;
+  const currentObat = obat.slice(first, last);
+  const currentLaporan = laporan.slice(first, last);
   return (
     <Router>
       <div className="App">
@@ -115,7 +115,12 @@ function App() {
           <Form obat={obat} />
         </Route>
         <Route path="/obat/laporanPembelian">
-          <LaporanPembelian laporan={laporan} />
+          <LaporanPembelian laporan={currentLaporan} />
+          <Paginations
+            obatPerPage={obatPerPage}
+            page={paginate}
+            totalObat={laporan.length}
+          />
         </Route>
       </div>
     </Router>
