@@ -84,7 +84,11 @@ function Create({ obat, beli }) {
   // email
   const [alert, setAlert] = useState(false);
   const handleValid = () => {
-    if (formBeli.jumlah <= 0) {
+    if (
+      formBeli.jumlah <= 0 ||
+      formBeli.jumlah === null ||
+      formBeli.jumlah === ""
+    ) {
       setValid({
         fields: "jumlah",
         error:
@@ -181,6 +185,7 @@ function Create({ obat, beli }) {
               )}
             />
             <TextField
+              required
               className={classes.text}
               id="outlined-number"
               label="Jumlah Beli"
@@ -192,7 +197,7 @@ function Create({ obat, beli }) {
                   ...formBeli,
                   jumlah: e.target.value,
                   total:
-                    e.target.value == 0
+                    e.target.value === 0 || e.target.value === ""
                       ? formBeli.hargaSatuan
                       : formBeli.hargaSatuan * e.target.value,
                 });
@@ -226,12 +231,14 @@ function Create({ obat, beli }) {
                   variant="h6"
                   color="inherit"
                 >
-                  <NumberFormat
-                    value={formBeli.total}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={"Rp. "}
-                  />
+                  <strong>
+                    <NumberFormat
+                      value={formBeli.total}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"Rp. "}
+                    />
+                  </strong>
                 </Typography>
               </Grid>
             </Grid>

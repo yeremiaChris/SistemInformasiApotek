@@ -161,6 +161,7 @@ export default function CustomizedTables({
   };
   // mengambil key
   const [key, setKey] = useState("");
+  console.log(obat);
   return (
     <>
       <Grid container justify="center">
@@ -215,6 +216,7 @@ export default function CustomizedTables({
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Nama</StyledTableCell>
+                <StyledTableCell align="left">Jenis Obat</StyledTableCell>
                 <StyledTableCell align="right">Stok</StyledTableCell>
                 <StyledTableCell align="right">Harga Beli</StyledTableCell>
                 <StyledTableCell align="right">Harga Jual</StyledTableCell>
@@ -226,6 +228,7 @@ export default function CustomizedTables({
                 obat.map((row, index) => (
                   <StyledTableRow key={row.key}>
                     <StyledTableCell align="left">{row.nama}</StyledTableCell>
+                    <StyledTableCell align="left">{row.jenis}</StyledTableCell>
                     <StyledTableCell align="right">{row.stok}</StyledTableCell>
                     <StyledTableCell align="right">
                       <NumberFormat
@@ -298,6 +301,7 @@ export default function CustomizedTables({
           <Button
             onClick={() => {
               deleteData(key);
+              handleClose();
             }}
             color="primary"
             autoFocus

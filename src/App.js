@@ -26,7 +26,7 @@ function App() {
       .onSnapshot(function (querySnapshot) {
         let list = [];
         querySnapshot.forEach(function (doc) {
-          const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+          const { date, hargaBeli, hargaJual, nama, stok, jenis } = doc.data();
           list.push({
             key: doc.id,
             doc,
@@ -35,6 +35,7 @@ function App() {
             hargaBeli,
             nama,
             stok,
+            jenis,
           });
         });
         setObat(list);
@@ -46,7 +47,7 @@ function App() {
     terbanyak.onSnapshot(function (querySnapshot) {
       let list = [];
       querySnapshot.forEach(function (doc) {
-        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        const { date, hargaBeli, hargaJual, nama, stok, jenis } = doc.data();
         list.push({
           key: doc.id,
           doc,
@@ -55,6 +56,7 @@ function App() {
           hargaBeli,
           nama,
           stok,
+          jenis,
         });
       });
       setObat(list);
@@ -66,7 +68,7 @@ function App() {
     terendah.onSnapshot(function (querySnapshot) {
       let list = [];
       querySnapshot.forEach(function (doc) {
-        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        const { date, hargaBeli, hargaJual, nama, stok, jenis } = doc.data();
         list.push({
           key: doc.id,
           doc,
@@ -75,6 +77,7 @@ function App() {
           hargaBeli,
           nama,
           stok,
+          jenis,
         });
       });
       setObat(list);
@@ -86,7 +89,7 @@ function App() {
     terbaru.onSnapshot(function (querySnapshot) {
       let list = [];
       querySnapshot.forEach(function (doc) {
-        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        const { date, hargaBeli, hargaJual, nama, stok, jenis } = doc.data();
         list.push({
           key: doc.id,
           doc,
@@ -95,6 +98,7 @@ function App() {
           hargaBeli,
           nama,
           stok,
+          jenis,
         });
       });
       setObat(list);
@@ -106,7 +110,7 @@ function App() {
     terlama.onSnapshot(function (querySnapshot) {
       let list = [];
       querySnapshot.forEach(function (doc) {
-        const { date, hargaBeli, hargaJual, nama, stok } = doc.data();
+        const { date, hargaBeli, hargaJual, nama, stok, jenis } = doc.data();
         list.push({
           key: doc.id,
           doc,
@@ -115,6 +119,7 @@ function App() {
           hargaBeli,
           nama,
           stok,
+          jenis,
         });
       });
       setObat(list);
@@ -227,7 +232,7 @@ function App() {
           />
         </Route>
         <Route path="/obat/create">
-          <Create setObat={setObat} obat={obat} />
+          <Create obat={obat} />
         </Route>
         <Route path="/obat/beli">
           <Form obat={obat} />
