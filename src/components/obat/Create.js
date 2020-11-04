@@ -92,15 +92,6 @@ function Create({ obat }) {
     } else if (brg.hargaJual === 0) {
       console.log("harga tidak boleh nol");
       setValid({ errorTextHargaJual: "Harga Tidak boleh nol" });
-    } else if (
-      (brg.hargaJual <= brg.hargaBeli && brg.hargaBeli != 0) ||
-      brg.hargaJual != 0
-    ) {
-      setValid({
-        errorTextHargaJual:
-          "Harga jual harus lebih besar dan harga tidak boleh nol",
-      });
-      console.log("harga jual harus lebih besar");
     } else {
       db.collection("obats")
         .add({

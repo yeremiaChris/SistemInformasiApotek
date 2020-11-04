@@ -14,6 +14,9 @@ import {
   terbaru,
   terlama,
 } from "./components/obat/sortby/Sort";
+
+import Print from "./components/obat/formPembelianObat/Print";
+import PDF from "./components/obat/formPembelianObat/PDF";
 function App() {
   const [obat, setObat] = useState([]);
   useEffect(() => {
@@ -157,6 +160,7 @@ function App() {
             jumlahBeli,
             namaObat,
             totalHarga,
+            jenis,
           } = doc.data();
           daftarLaporan.push({
             key: doc.id,
@@ -166,6 +170,7 @@ function App() {
             jumlahBeli,
             namaObat,
             totalHarga,
+            jenis,
           });
         });
         setLaporan(daftarLaporan);
@@ -244,6 +249,12 @@ function App() {
             page={paginate}
             totalObat={laporan.length}
           />
+        </Route>
+        <Route path="/coba">
+          <Print obat={obat} />
+        </Route>
+        <Route path="/view">
+          <PDF laporan={currentLaporan} />
         </Route>
       </div>
     </Router>

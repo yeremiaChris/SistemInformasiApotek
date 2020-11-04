@@ -17,7 +17,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 // curreny
 import NumberFormat from "react-number-format";
-
+import SaveIcon from "@material-ui/icons/Save";
+import Button from "@material-ui/core/Button";
+import PDF from "./PDF";
 const useStyles = makeStyles((theme) => ({
   sort: {
     width: 700,
@@ -31,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: "inherit",
+  },
+  kiri: {
+    marginLeft: "750px",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -86,6 +91,7 @@ const StyledTableRow = withStyles((theme) => ({
 function LaporanPembelian({ laporan }) {
   const classes = useStyles();
 
+  // sortby
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const handleProfileMenuOpen = (event) => {
@@ -109,6 +115,34 @@ function LaporanPembelian({ laporan }) {
       <MenuItem onClick={handleMenuClose}>Terbaru</MenuItem>
     </Menu>
   );
+  // akhir sortby
+  // print
+  const [anchorEldua, setAnchorEldua] = React.useState(null);
+  const isMenuOpendua = Boolean(anchorEldua);
+  const handleProfileMenuOpendua = (event) => {
+    setAnchorEldua(event.currentTarget);
+  };
+  const handleMenuClosedua = () => {
+    setAnchorEldua(null);
+  };
+  const menuIddua = "primary-search-account-menu";
+  const renderMenudua = (
+    <Menu
+      anchorEl={anchorEldua}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuIddua}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpendua}
+      onClose={handleMenuClosedua}
+    >
+      <MenuItem onClick={handleMenuClosedua}>Print Laporan Hari ini</MenuItem>
+      <MenuItem onClick={handleMenuClosedua}>Print Laporan Terakhir</MenuItem>
+      <MenuItem onClick={handleMenuClosedua}>Print Laporan Minggu Ini</MenuItem>
+      <MenuItem onClick={handleMenuClosedua}>Print Laporan Bulan Ini</MenuItem>
+    </Menu>
+  );
+  // akhir print
   return (
     <>
       <Grid container className={classes.sort}>
@@ -145,9 +179,30 @@ function LaporanPembelian({ laporan }) {
                   inputProps={{ "aria-label": "search" }}
                 />
               </div>
+              <div className={classes.kiri}>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuIddua}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpendua}
+                  color="inherit"
+                >
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    className={classes.button}
+                    startIcon={<SaveIcon />}
+                  >
+                    Print
+                  </Button>
+                </IconButton>
+              </div>
             </Toolbar>
           </AppBar>
           {renderMenu}
+          {renderMenudua}
         </Grid>
       </Grid>
       <Grid container>
@@ -164,6 +219,7 @@ function LaporanPembelian({ laporan }) {
                   Tanggal Pembelian
                 </StyledTableCell>
                 <StyledTableCell align="right">Nama Obat</StyledTableCell>
+                <StyledTableCell align="right">Jenis Obat</StyledTableCell>
                 <StyledTableCell align="right">Harga Satuan</StyledTableCell>
                 <StyledTableCell align="right">Jumlah Beli</StyledTableCell>
                 <StyledTableCell align="right">Total Beli</StyledTableCell>
@@ -177,6 +233,7 @@ function LaporanPembelian({ laporan }) {
                     <StyledTableCell align="right">
                       {row.namaObat}
                     </StyledTableCell>
+                    <StyledTableCell align="right">{row.jenis}</StyledTableCell>
                     <StyledTableCell align="right">
                       <NumberFormat
                         value={row.hargaSatuan}
@@ -204,6 +261,7 @@ function LaporanPembelian({ laporan }) {
           </Table>
         </Grid>
       </Grid>
+      <PDF />
     </>
   );
 }

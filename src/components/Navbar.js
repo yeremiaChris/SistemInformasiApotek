@@ -94,7 +94,7 @@ export default function ButtonAppBar() {
             <ListItemIcon>
               <ShoppingBasketIcon />
             </ListItemIcon>
-            <ListItemText primary="Beli" />
+            <ListItemText primary="Beli Obat" />
           </ListItem>
         </Link>
         <Link to="/obat/laporanPembelian" className={classes.text}>
@@ -102,7 +102,7 @@ export default function ButtonAppBar() {
             <ListItemIcon>
               <DataUsageIcon />
             </ListItemIcon>
-            <ListItemText primary="Laporan Pembelian" />
+            <ListItemText primary="Data Pembelian" />
           </ListItem>
         </Link>
       </List>

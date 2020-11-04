@@ -45,6 +45,7 @@ const initialState = {
   keyObat: "",
   obat: "",
   jumlah: 0,
+  jenis: "",
   hargaSatuan: 0,
   total: 0,
   stokAwal: 0,
@@ -112,6 +113,7 @@ function Create({ obat, beli }) {
     db.collection("pembelianObats")
       .add({
         namaObat: formBeli.obat,
+        jenis: formBeli.jenis,
         jumlahBeli: formBeli.jumlah,
         hargaSatuan: formBeli.hargaSatuan,
         totalHarga: formBeli.total,
@@ -155,6 +157,7 @@ function Create({ obat, beli }) {
                   stokAwal: v.stok,
                   hargaSatuan: v.hargaBeli,
                   total: v.hargaBeli,
+                  jenis: v.jenis,
                 });
               }}
               className={classes.text}
